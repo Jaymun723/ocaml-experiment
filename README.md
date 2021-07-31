@@ -9,3 +9,5 @@ Helpful links:
 - https://ocsigen.org/home/intro.html
 - https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/
 - https://ocaml.xyz/ et https://ocaml.xyz/book
+
+http://neuralnetworksanddeeplearning.com/chap2.html#eqtnBP1

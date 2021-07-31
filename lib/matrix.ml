@@ -34,25 +34,41 @@
    let ( * ) = mult *)
 
 let create x y generate_value =
-  let sub_create _ = List.init y generate_value in
+  let sub_create i = List.init y @@ generate_value i in
   List.init x sub_create
+
+let zeroes x y =
+  let zero_fn _ _ = 0. in
+  create x y zero_fn
 
 let dims m = (List.length m, List.length @@ List.nth m 0)
 
 let merge f =
-  let sub_merge a b = f a b in
+  let sub_merge = List.map2 f in
   List.map2 sub_merge
 
 let map f = List.map @@ List.map f
 
 let scale s = map @@ fun x -> x *. s
 
-let add = merge ( + )
+let add = merge ( +. )
 
 let ( + ) = add
 
-let sub = merge ( - )
+let sub = merge ( -. )
 
 let ( - ) = sub
 
-(* let mult =  *)
+let hadamart_product = merge ( *. )
+
+let row = List.nth
+
+let col m i = List.map (fun x -> List.nth x i) m
+
+let mult m0 m1 =
+  let x, _ = dims m0 and _, y = dims m1 in
+  let template = create x y @@ fun _ _ -> 0 in
+  let inner_product i j = Vector.dot (row m0 i) (col m1 j) in
+  List.mapi (fun i l -> List.mapi (fun j _ -> inner_product i j) l) template
+
+let ( * ) = mult
